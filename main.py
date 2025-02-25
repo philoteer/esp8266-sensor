@@ -81,6 +81,11 @@ pms_data = None
 time_current = None
 
 async def serve_client(reader, writer):
+    global WIFI_ENABLE;
+    
+    if( not(WIFI_ENABLE)):
+        pass
+    
     request_line = await reader.readline()
     print("Request:", request_line)
     # We are not interested in HTTP request headers, skip them
@@ -117,7 +122,7 @@ async def main():
         cds_read = cds.read()
         pms_data = pms.read()
         time_current = time.localtime(time.time() + TIMEZONE)
-        if(cnt % NTP_SYNC_INTERVAL == 0):
+        if(cnt % NTP_SYNC_INTERVAL == 0 and WIFI_ENABLE):
             ntptime.settime()
         
         oled.fill(0)
@@ -141,3 +146,4 @@ try:
     asyncio.run(main())
 finally:
     asyncio.new_event_loop()
+

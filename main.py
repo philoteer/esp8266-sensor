@@ -23,7 +23,7 @@ OLED_WIDTH = 128
 OLED_HEIGHT = 64
 DHT22_PIN = Pin(16)
 CDS_ADC_PIN = 0
-UPDATE_INTERVAL = 1 # Seconds 
+UPDATE_INTERVAL = 0.5 # Seconds 
 UART_TX = machine.Pin(4)
 UART_RX = machine.Pin(5)
 
@@ -123,11 +123,18 @@ async def main():
         pms_data = pms.read()
         time_current = time.localtime(time.time() + TIMEZONE)
         if(cnt % NTP_SYNC_INTERVAL == 0 and WIFI_ENABLE):
-            ntptime.settime()
-        
+            try:
+                ntptime.settime()
+            except:
+                pass
+         
         oled.fill(0)
-        oled.text('dat: '+str(time_current[0])+"/"+str(time_current[1])+"/"+str(time_current[2]), 0, 0)
-        #oled.text('time: '+str(time_current[3])+":"+str(time_current[4])+":"+str(time_current[5]), 0, 10)
+        #oled.text('dat: '+str(time_current[0])+"/"+str(time_current[1])+"/"+str(time_current[2]), 0, 0)
+        
+        _, _, _, hour, _min, sec, _, _ = (time_current)
+        time_format = "{:02d}:{:02d}:{:02d}"
+        oled.text('time: '+time_format.format(hour, _min, sec) , 0, 0)
+         
         oled.text('temp: '+str(dht22.temperature())+"C", 0, 10)
         oled.text('hum: '+str(dht22.humidity())+"%", 0, 20)
         #oled.text('cds: '+str(cds_read), 0, 30)
@@ -146,4 +153,3 @@ try:
     asyncio.run(main())
 finally:
     asyncio.new_event_loop()
-

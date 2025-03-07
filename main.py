@@ -33,13 +33,13 @@ TIMEZONE = 9 * 60 * 60
 WIFI_ENABLE=True
 SSID="" ###CHANGEME
 WPA_PASSKEY=""  ###CHANGEME
-NTP_SYNC_INTERVAL = 86400
+NTP_SYNC_INTERVAL = 3600
 
 #HTML Template
 html = """<!DOCTYPE html>
 <html>
     <head> <title>ESP8266 Node</title> <meta http-equiv="refresh" content="5"> </head>
-    <body> <h1> ###CHANGEME</h1>
+    <body> <h1> PIAI 321</h1>
         <p>%s</p>
     </body>
 </html>
@@ -93,9 +93,11 @@ async def serve_client(reader, writer):
         pass
 
     request = str(request_line)
-    
-    stateis='date: '+str(time_current[0])+"/"+str(time_current[1])+"/"+str(time_current[2]) +"<br>"
-    stateis+= 'time: '+str(time_current[3])+":"+str(time_current[4])+":"+str(time_current[5])+"<br>"
+    year, month, day, hour, _min, sec, _, _ = (time_current)
+    date_format = "{:04d}/{:02d}/{:02d}"    
+    time_format = "{:02d}:{:02d}:{:02d}"    
+    stateis='date: '+date_format.format(year,month,day) +"<br>"
+    stateis+= 'time: '+time_format.format(hour, _min, sec)+"<br>"
     stateis+= 'temp: '+str(dht22.temperature())+" C <br>"
     stateis+= 'hum: '+str(dht22.humidity())+"% <br>"
     stateis+= 'cds: '+str(cds_read) + "<br>"

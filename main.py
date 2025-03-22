@@ -10,6 +10,7 @@ from pms7003 import Pms7003
 import gc
 import network, ntptime
 import uasyncio as asyncio
+from machine import WDT
 
 #####################################################
 # Configs
@@ -72,8 +73,11 @@ if(WIFI_ENABLE):
     else:
         print('network config:', sta_if.ifconfig())
         ntptime.settime()	
-    
-#####################################################
+
+#wdt = WDT(timeout=UPDATE_INTERVAL*1000*4) #ESP8266 won't do it
+wdt = WDT()
+
+####################################################
 # Main loop
 #####################################################
 cds_read = None
@@ -149,6 +153,7 @@ async def main():
         cnt += 1
         gc.collect()
         print(gc.mem_free())
+        wdt.feed()
 
 
 try:

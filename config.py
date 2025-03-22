@@ -10,8 +10,8 @@ OLED_HEIGHT = 64
 DHT22_PIN = Pin(16)
 CDS_ADC_PIN = 0
 UPDATE_INTERVAL = 0.5 # Seconds 
-UART_TX = machine.Pin(4)
-UART_RX = machine.Pin(5)
+UART_TX = Pin(4)
+UART_RX = Pin(5)
 
 TIMEZONE = 9 * 60 * 60
 

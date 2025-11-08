@@ -107,9 +107,12 @@ async def main():
     
     cnt = 0
     while True:
-        dht22.measure()
-        cds_read = cds.read()
-        pms_data = pms.read()
+        try:
+            dht22.measure()
+            cds_read = cds.read()
+            pms_data = pms.read()
+        except:
+            print("measurement error")
         time_current = time.localtime(time.time() + TIMEZONE)
         if(cnt % NTP_SYNC_INTERVAL == 0 and WIFI_ENABLE):
             try:

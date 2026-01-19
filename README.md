@@ -8,3 +8,4 @@ ESP8266 IoT sensor, for personal use. May have license issues, as I copied & pas
 
 # Considerations
 * PMS7003 can wear out quickly (~1 yr) if continuously operated; implementing sleep mode is recommended
+* The OLED panel lasted about ~ 10 months (it still works, but the burn-in has developed to the point where the legibility of the display is being compromised)
